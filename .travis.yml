@@ -8,5 +8,10 @@ before_install:
     - pip install awscli --upgrade --user
 
 script:
+- set -euo pipefail
 - bash scripts/travis-build.sh build
 - bash scripts/travis-build.sh publish
+
+# notifications:
+#   slack:
+#     secure: V8jPfyltLe6y4h5bguufPlUZ5cR8MR989tORkrcPiDUXI+t/wiBboDyrsf49vL1cSISP+6bvu0r3AvIPqkEwErQZ8JNaeb3PjfON/xs7iRmHA7lTJbzL41ETIXzDEL2kmcgQDCf5LwvCfEN/HYLk2EpEdeRFD79JUOvi8cAFkMNjyGDSuA4Gv8MiwoKAbztAg12e6hF/QUYSnLfOrF2lyCGaxz9KrR90lOqzW3+3OHZVyu0+yZoNyl1IZ9bnZD69rMbT+AHczOV0R5gDpWVSkXkdv0AV4bGBVWqY7mmv7RIOGFoBWMdAr+f9Jn2ueiSfJnXoNThC52MVGZE9qIQvwab6BNZhzcQ6uh6ud5LfYrct34vFavuO4pgIKHzS9sBj9BgFcfsad1C+Qm1KV9DkEQ5Qvv2nwgm+JhQw1hBqX9BSVoCtfAUQjDHiHEKgPV+CJX1An1MyLQV+2s+TZ7T+2JgnPVqq9Pd+sdfOJ8wOgTaEV6Miq/NQ9mMFrDSqw3YUPw2G/LHSDF9MslkIAhJ3QFG+9iA1j44lafVZ6pJOk51UQP0vQLoxu00sXlW6Uy95yqOowpCZQP9DYfKDuoSYIPrdq7YSTEdiFaYYp971FRNVxQ1QbdYIZ7YJL7wvkqP2lngCSm3kgb5QmkgEmWF7iy1qf2JGAAvVav/gKFjY/XQ=
