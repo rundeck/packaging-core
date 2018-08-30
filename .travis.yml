@@ -8,5 +8,5 @@ before_install:
     - pip install awscli --upgrade --user
 
 script:
-- bash scripts/travis_build.sh build
-- bash scripts/travis_build.sh publish
+- bash scripts/travis-build.sh build
+- bash scripts/travis-build.sh publish
