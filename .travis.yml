@@ -1,5 +1,13 @@
 install: false
 
+addons:
+  apt:
+    packages:
+    - expect
+    - rpm
+    - dpkg-sig
+    - gnupg
+
 git:
     submodules: false
 before_install:
