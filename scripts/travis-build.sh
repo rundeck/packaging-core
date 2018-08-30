@@ -37,6 +37,12 @@ publish() {
                 bintrayUpload
         done
     )
+
+    if [[ ! -z "${UPSTREAM_TAG}" ]] ; then
+        for PACKAGE in deb rpm; do
+            aws s3 sync --dryrun --exclude=* --include=*.$PACKAGE packaging/build/distributions/ s3://download.rundeck.org/$PACKAGE/
+        done
+    fi
 }
 
 main "${@}"
