@@ -1,6 +1,11 @@
-before_install:
-- pip install awscli --upgrade --user
 install: false
+
+git:
+    submodules: false
+before_install:
+    - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
+    - git submodule update --init --recursive
+    - pip install awscli --upgrade --user
 
 script:
 - bash scripts/travis_build.sh build
