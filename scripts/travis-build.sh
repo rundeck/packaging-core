@@ -12,6 +12,7 @@ main() {
 
     case "${COMMAND}" in
         build) build "${@}" ;;
+        sign) sign "${@}" ;;
         publish) publish "${@}" ;;
     esac
 }
@@ -20,13 +21,21 @@ build() {
     bash packaging/scripts/travis-build.sh build
 }
 
+sign() {
+    bash packaging/scripts/sign-packages.sh
+}
+
 publish() {
     (
         cd packaging
-        ./gradlew --info \
-            -PpackageOrg=rundeck \
-            -PpackageRevision=1 \
-            bintrayUpload
+        for PACKAGE in deb rpm; do
+            ./gradlew --info \
+                -PpackagePrefix="rundeck-" \
+                -PpackageType=$PACKAGE \
+                -PpackageOrg=rundeck \
+                -PpackageRevision=1 \
+                bintrayUpload
+        done
     )
 }
 
