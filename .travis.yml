@@ -8,7 +8,6 @@ before_install:
     - pip install awscli --upgrade --user
 
 script:
-- set -euo pipefail
 - bash scripts/travis-build.sh build
 - bash scripts/travis-build.sh sign
 - bash scripts/travis-build.sh publish
