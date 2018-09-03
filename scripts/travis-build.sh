@@ -18,7 +18,15 @@ main() {
 }
 
 build() {
-    bash packaging/scripts/travis-build.sh build
+    local RELEASE_NUM="1"
+
+    bash packaging/scripts/travis-build.sh fetch_artifacts
+    (
+        cd packaging
+        ./gradlew \
+            -PpackageRelease=$RELEASE_NUM \
+            clean packageArtifacts
+    )
 }
 
 sign() {
