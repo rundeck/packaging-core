@@ -19,7 +19,7 @@ before_install:
     - pip install awscli --upgrade --user
 
 before_script:
-- source scripts/travis-helpers.sh
+- source packaging/scripts/travis-helpers.sh
 - export -f travis_nanoseconds
 - export -f travis_fold
 - export -f travis_time_start
