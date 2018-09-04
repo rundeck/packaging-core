@@ -15,10 +15,18 @@ before_install:
     - git submodule update --init --recursive
     - pip install awscli --upgrade --user
 
+before_script:
+- source scripts/travis-helpers.sh
+- export -f travis_nanoseconds
+- export -f travis_fold
+- export -f travis_time_start
+- export -f travis_time_finish
+
 script:
-- bash scripts/travis-build.sh build
-- bash scripts/travis-build.sh sign
-- bash scripts/travis-build.sh publish
+- script_block 'build' 'bash scripts/travis-build.sh build'
+- script_block 'sign' 'bash scripts/travis-build.sh sign'
+- script_block 'test' 'bash scripts/travis-build.sh test'
+- script_block 'publish' 'bash scripts/travis-build.sh publish'
 
 notifications:
   slack:

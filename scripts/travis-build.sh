@@ -15,6 +15,7 @@ main() {
     case "${COMMAND}" in
         build) build "${@}" ;;
         sign) sign "${@}" ;;
+        test) test_packages "${@}" ;;
         publish) publish "${@}" ;;
     esac
 }
@@ -33,6 +34,10 @@ build() {
 
 sign() {
     bash packaging/scripts/sign-packages.sh
+}
+
+test_packages() {
+    bash packaging/scripts/travis-build.sh test
 }
 
 publish() {
