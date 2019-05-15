@@ -46,7 +46,7 @@ publish() {
     # If we don't supply this information the bintray gradle plugin will dry run
     BINTRAY_PUBLISH_OPTS=""
     if [[ "$DRY_RUN" == false ]] ; then
-        BINTRAY_PUBLISH_OPTS="-PbintrayUser=$BINTRAY_USER -PbintrayApiKey=$BINTRAY_API_KEY"
+        BINTRAY_PUBLISH_OPTS="-PbintrayUser=$BINTRAY_USER -PbintrayApiKey=$BINTRAY_API_KEY -PdryRun=false"
     fi
 
     (
