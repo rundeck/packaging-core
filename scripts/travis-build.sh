@@ -2,6 +2,8 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
+UPSTREAM_TAG="${UPSTREAM_TAG:-}"
+
 DRY_RUN="${DRY_RUN:-true}"
 
 set -xeuo pipefail
