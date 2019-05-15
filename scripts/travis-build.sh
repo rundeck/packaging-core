@@ -6,7 +6,7 @@ UPSTREAM_TAG="${UPSTREAM_TAG:-}"
 
 DRY_RUN="${DRY_RUN:-true}"
 
-set -xeuo pipefail
+set -euo pipefail
 
 shopt -s globstar
 
