@@ -23,7 +23,7 @@ main() {
 }
 
 build() {
-    local RELEASE_NUM="1"
+    local RELEASE_NUM="2"
 
     bash packaging/scripts/travis-build.sh fetch_artifacts
     (
