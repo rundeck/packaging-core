@@ -15,6 +15,8 @@ before_install:
     - sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
     - git submodule update --init --recursive --remote
     - pip install awscli --upgrade --user
+    - gem install package_cloud
+    - echo "{\"url\":\"https://packagecloud.io\",\"token\":\"${PKGCLD_WRITE_TOKEN}\"}" > ~/.packagecloud
 
 before_script:
 - source packaging/scripts/travis-helpers.sh

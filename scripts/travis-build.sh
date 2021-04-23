@@ -43,12 +43,6 @@ test_packages() {
 }
 
 publish() {
-    # If we don't supply this information the bintray gradle plugin will dry run
-    BINTRAY_PUBLISH_OPTS=""
-    if [[ "$DRY_RUN" == false ]] ; then
-        BINTRAY_PUBLISH_OPTS="-PbintrayUser=$BINTRAY_USER -PbintrayApiKey=$BINTRAY_API_KEY -PdryRun=false"
-    fi
-
     (
         cd packaging
         for PACKAGE in deb rpm; do
@@ -57,8 +51,7 @@ publish() {
                 -PpackageType=$PACKAGE \
                 -PpackageOrg=rundeck \
                 -PpackageRevision=1 \
-                $BINTRAY_PUBLISH_OPTS \
-                bintrayUpload
+                publish
         done
     )
 
