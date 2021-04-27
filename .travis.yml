@@ -30,6 +30,7 @@ script:
 - script_block 'sign' 'bash scripts/travis-build.sh sign'
 - script_block 'test' 'bash scripts/travis-build.sh test'
 - script_block 'publish' 'bash scripts/travis-build.sh publish'
+- script_block 'publish war' 'bash scripts/travis-build.sh publish_war'
 
 notifications:
   slack:

@@ -19,6 +19,7 @@ main() {
         sign) sign "${@}" ;;
         test) test_packages "${@}" ;;
         publish) publish "${@}" ;;
+        publish_war) publish_war "${@}" ;;
     esac
 }
 
@@ -66,6 +67,17 @@ publish() {
             aws s3 sync "${S3_DRY_RUN}" --exclude=* --include=*.$PACKAGE packaging/build/distributions/ s3://download.rundeck.org/$PACKAGE/
         done
     fi
+}
+
+publish_war() {
+    (
+        cd packaging
+        ./gradlew --info \
+            -PpackageType=war \
+            -PpackageOrg=rundeck \
+            -PpackageRevision=1 \
+            publishWar
+    )
 }
 
 main "${@}"
