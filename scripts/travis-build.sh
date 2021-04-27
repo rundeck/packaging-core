@@ -55,18 +55,6 @@ publish() {
                 publish
         done
     )
-
-    # This is a flag that doesn't take a value
-    S3_DRY_RUN="--dryrun"
-    if [[ "$DRY_RUN" != true ]] ; then
-        S3_DRY_RUN=""
-    fi
-
-    if [[ ! -z "${UPSTREAM_TAG}" ]] ; then
-        for PACKAGE in deb rpm; do
-            aws s3 sync "${S3_DRY_RUN}" --exclude=* --include=*.$PACKAGE packaging/build/distributions/ s3://download.rundeck.org/$PACKAGE/
-        done
-    fi
 }
 
 publish_war() {
@@ -77,6 +65,23 @@ publish_war() {
             -PpackageOrg=rundeck \
             -PpackageRevision=1 \
             publishWar
+    )
+}
+
+publish_to_s3() {
+    (
+        cd packaging
+        # This is a flag that doesn't take a value
+        S3_DRY_RUN="--dryrun"
+        if [[ "$DRY_RUN" != true ]] ; then
+            S3_DRY_RUN=""
+        fi
+
+        if [[ -n "${UPSTREAM_TAG}" ]] ; then
+            for PACKAGE in deb rpm; do
+                aws s3 sync "${S3_DRY_RUN}" --exclude=* --include=*.$PACKAGE packaging/build/distributions/ s3://download.rundeck.org/$PACKAGE/
+            done
+        fi
     )
 }
 
