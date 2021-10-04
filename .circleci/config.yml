@@ -1,0 +1,291 @@
+version: 2.1
+orbs:
+  aws-cli: circleci/aws-cli@1.0.0
+  docker-publish: circleci/docker-publish@0.1.6
+  node: circleci/node@1.1.6
+  trigger: rundeck/trigger-pipeline@0.0.5
+
+parameters:
+  CIRCLE_UPSTREAM_PIPELINE_NUMBER: {type: string, default: ""}
+  CIRCLE_UPSTREAM_BRANCH: {type: string, default: ""}
+  CIRCLE_UPSTREAM_TAG: {type: string, default: ""}
+
+upstream-env: &upstream
+  CIRCLE_UPSTREAM_PIPELINE_NUMBER: <<pipeline.parameters.CIRCLE_UPSTREAM_PIPELINE_NUMBER>>
+  CIRCLE_UPSTREAM_BRANCH: <<pipeline.parameters.CIRCLE_UPSTREAM_BRANCH>>
+  CIRCLE_UPSTREAM_TAG: <<pipeline.parameters.CIRCLE_UPSTREAM_TAG>>
+
+defaults: &defaults
+  working_directory: ~/repo
+  environment:
+    CIRCLE_PIPELINE_NUM: << pipeline.number >>
+    TERM: dumb
+
+commands:
+  install-packages:
+    description: Install apt packages
+    steps:
+      - run:
+          name: Apt install
+          command: |
+            sudo apt-get update
+            sudo apt-get -y install expect
+            sudo apt-get -y install rpm
+            sudo apt-get -y install dpkg-sig
+            sudo apt-get -y install gnupg
+
+  git-modules:
+    description: Git modules step
+    steps:
+      - run:
+          name: Git modules
+          command: sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
+
+  submodule-update:
+    description: Update submodule
+    steps:
+      - run:
+          name: Update submodule
+          command: git submodule update --init --recursive --remote
+  aws-install:
+    description: Install aws cli
+    steps:
+      - run:
+          name: Install aws cli
+          command: pip install awscli --upgrade --user
+
+  package-cloud-install:
+    description: Install package cloud
+    steps:
+      - run:
+          name: Install package cloud
+          command: gem install package_cloud
+
+  echo-package-cloud:
+    description: Echo Package cloud token
+    steps:
+      - run:
+          name: Echo Package cloud token
+          command: echo "{\"url\":\"https://packagecloud.io\",\"token\":\"${PKGCLD_WRITE_TOKEN}\"}" > ~/.packagecloud
+
+  define-source:
+    description: Define helpers source
+    steps:
+      - run:
+          name: Define helpers source
+          command: source packaging/scripts/travis-helpers.sh
+  export-helpers:
+    description: Export helpers
+    steps:
+      - run:
+          name: Export helpers
+          command: |
+              export -f travis_nanoseconds
+              export -f travis_fold
+              export -f travis_time_start
+              export -f travis_time_finish
+
+jobs:
+  build:
+    # <<: *defaults
+    # machine: true
+    docker:
+      - image: 481311893001.dkr.ecr.us-west-2.amazonaws.com/rundeck/ci@sha256:664d53fde6060ee28a61e9edfab7a8f5db6fc390076683dfd3bb7eb8877ee0de
+
+    resource_class: xlarge
+
+    working_directory: ~/repo
+
+    parameters:
+      submodule:
+        description: Should the build use submodules?
+        type: boolean
+        default: true
+
+    environment:
+      <<: *upstream
+      CIRCLE_PIPELINE_NUM: << pipeline.number >>
+      TERM: dumb
+      GRADLE_OPTS: -Xmx1024m -XX:MaxPermSize=192m -Xss50m
+      _JAVA_OPTIONS: "-Xmx2g -Xms200m -Xss50m"
+      BASH_ENV: ~/.bash_profile
+
+    steps:
+      - install-packages
+      - git-modules
+      - submodule-update
+      - aws-install
+      - package-cloud-install
+      - define-source
+      - export-helpers
+      - run:
+          name: Build
+          command: |
+            source .circleci/travis-shim.sh
+            bash scripts/travis-build.sh build
+  sign:
+    # <<: *defaults
+    # machine: true
+    docker:
+      - image: 481311893001.dkr.ecr.us-west-2.amazonaws.com/rundeck/ci@sha256:664d53fde6060ee28a61e9edfab7a8f5db6fc390076683dfd3bb7eb8877ee0de
+
+    resource_class: xlarge
+
+    working_directory: ~/repo
+
+    parameters:
+      submodule:
+        description: Should the build use submodules?
+        type: boolean
+        default: true
+
+    environment:
+      <<: *upstream
+      CIRCLE_PIPELINE_NUM: << pipeline.number >>
+      TERM: dumb
+      GRADLE_OPTS: -Xmx1024m -XX:MaxPermSize=192m -Xss50m
+      _JAVA_OPTIONS: "-Xmx2g -Xms200m -Xss50m"
+      BASH_ENV: ~/.bash_profile
+
+    steps:
+      - run:
+          name: Sign
+          command: |
+            source .circleci/travis-shim.sh
+            bash scripts/travis-build.sh sign
+  test:
+    # <<: *defaults
+    # machine: true
+    docker:
+      - image: 481311893001.dkr.ecr.us-west-2.amazonaws.com/rundeck/ci@sha256:664d53fde6060ee28a61e9edfab7a8f5db6fc390076683dfd3bb7eb8877ee0de
+
+    resource_class: xlarge
+
+    working_directory: ~/repo
+
+    parameters:
+      submodule:
+        description: Should the build use submodules?
+        type: boolean
+        default: true
+
+    environment:
+      <<: *upstream
+      CIRCLE_PIPELINE_NUM: << pipeline.number >>
+      TERM: dumb
+      GRADLE_OPTS: -Xmx1024m -XX:MaxPermSize=192m -Xss50m
+      _JAVA_OPTIONS: "-Xmx2g -Xms200m -Xss50m"
+      BASH_ENV: ~/.bash_profile
+
+    steps:
+      - run:
+          name: Sign
+          command: |
+            source .circleci/travis-shim.sh
+            bash scripts/travis-build.sh test
+  publish:
+    # <<: *defaults
+    # machine: true
+    docker:
+      - image: 481311893001.dkr.ecr.us-west-2.amazonaws.com/rundeck/ci@sha256:664d53fde6060ee28a61e9edfab7a8f5db6fc390076683dfd3bb7eb8877ee0de
+
+    resource_class: xlarge
+
+    working_directory: ~/repo
+
+    parameters:
+      submodule:
+        description: Should the build use submodules?
+        type: boolean
+        default: true
+
+    environment:
+      <<: *upstream
+      CIRCLE_PIPELINE_NUM: << pipeline.number >>
+      TERM: dumb
+      GRADLE_OPTS: -Xmx1024m -XX:MaxPermSize=192m -Xss50m
+      _JAVA_OPTIONS: "-Xmx2g -Xms200m -Xss50m"
+      BASH_ENV: ~/.bash_profile
+
+    steps:
+      - run:
+          name: Sign
+          command: |
+            source .circleci/travis-shim.sh
+            bash scripts/travis-build.sh publish
+
+  publish-war:
+    # <<: *defaults
+    # machine: true
+    docker:
+      - image: 481311893001.dkr.ecr.us-west-2.amazonaws.com/rundeck/ci@sha256:664d53fde6060ee28a61e9edfab7a8f5db6fc390076683dfd3bb7eb8877ee0de
+
+    resource_class: xlarge
+
+    working_directory: ~/repo
+
+    parameters:
+      submodule:
+        description: Should the build use submodules?
+        type: boolean
+        default: true
+
+    environment:
+      <<: *upstream
+      CIRCLE_PIPELINE_NUM: << pipeline.number >>
+      TERM: dumb
+      GRADLE_OPTS: -Xmx1024m -XX:MaxPermSize=192m -Xss50m
+      _JAVA_OPTIONS: "-Xmx2g -Xms200m -Xss50m"
+      BASH_ENV: ~/.bash_profile
+
+    steps:
+      - run:
+          name: Sign
+          command: |
+            source .circleci/travis-shim.sh
+            bash scripts/travis-build.sh publish_war
+
+stages:
+  test: &stage-test
+    - Test
+  sign: &stage-sign
+    - Sign
+  build: &stage-build
+    - Build
+  publish: &stage-publish
+    - Publish
+  publish-war: &stage-publishwar
+    - Publish War
+
+filters:
+  all: &filter-default
+    filters:
+      tags: {only: '/^v.*/'}
+  tags: &filter-tags
+    filters:
+      branches: {ignore: /.*/}
+      tags: {only: '/^v.*/'}
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build:
+          <<: *filter-tags
+          name: Build
+      - sign:
+          <<: *filter-tags
+          name: Sign
+          requires: *stage-build
+      - test:
+          <<: *filter-tags
+          name: Test
+          requires: *stage-sign
+      - publish:
+          <<: *filter-tags
+          name: Publish
+          requires: *stage-test
+      - publish-war:
+          <<: *filter-tags
+          name: Publish War
+          requires: *stage-publish
