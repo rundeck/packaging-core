@@ -33,6 +33,12 @@ commands:
             sudo apt-get -y install rpm
             sudo apt-get -y install dpkg-sig
             sudo apt-get -y install gnupg
+  docker-login:
+    description: Login to docker
+    steps:
+      - run:
+          name: Login to docker
+          command: docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
   git-modules:
     description: Git modules step
     steps:
@@ -151,6 +157,7 @@ jobs:
 
     steps:
       - install-packages
+      - docker-login
       - git-modules
       - submodule-update
       - aws-install
