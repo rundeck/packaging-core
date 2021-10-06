@@ -28,8 +28,6 @@ commands:
       - run:
           name: Apt install
           command: |
-            set -e
-            killall apt-get
             sudo apt-get update
             sudo apt-get -y install expect
             sudo apt-get -y install rpm
@@ -164,7 +162,14 @@ jobs:
       BASH_ENV: ~/.bash_profile
 
     steps:
-      - install-packages
+      - run:
+          name: Apt install
+          command: |
+            sudo apt-get update
+            sudo apt-get -y install expect
+            sudo apt-get -y install rpm
+            sudo apt-get -y install dpkg-sig
+            sudo apt-get -y install gnupg
       - docker-login
       - git-modules
       - submodule-update
@@ -199,6 +204,6 @@ workflows:
         - equal ['/^v.*/', <<pipeline.parameters.CIRCLE_UPSTREAM_TAG>>]
     jobs:
       - build_and_publish:
-          name: Build and test
+          name: Build and publish
       - random_test:
           name: Test
