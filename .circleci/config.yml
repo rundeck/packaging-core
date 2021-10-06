@@ -28,6 +28,8 @@ commands:
       - run:
           name: Apt install
           command: |
+            set -e
+            killall apt-get
             sudo apt-get update
             sudo apt-get -y install expect
             sudo apt-get -y install rpm
