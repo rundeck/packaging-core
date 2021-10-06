@@ -131,12 +131,12 @@ commands:
             bash scripts/travis-build.sh publish_war
 
 jobs:
-  test:
+  random_test:
     steps:
     - run:
         name: Test
         command: echo "hello world"
-        
+
   build_and_publish:
     # <<: *defaults
     # machine: true
@@ -196,3 +196,5 @@ workflows:
       - build_and_publish:
           <<: *filter-tags
           name: Build and test
+      - random_test:
+          name: Test
