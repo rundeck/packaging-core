@@ -161,7 +161,7 @@ jobs:
             sudo apt-get -y install dpkg-sig
             sudo apt-get -y install gnupg
       - docker-login
-      - git-modules
+      #- git-modules
       - submodule-update
       - aws-install
       - package-cloud-install
