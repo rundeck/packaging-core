@@ -192,6 +192,9 @@ filters:
 workflows:
   version: 2
   build_and_test:
+    when:
+      and:
+        - equal ['/^v.*/', <<pipeline.parameters.CIRCLE_UPSTREAM_TAG>>]
     jobs:
       - build_and_publish:
           <<: *filter-tags
