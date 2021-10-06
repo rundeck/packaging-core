@@ -187,6 +187,6 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-      - build_and_test:
+      - build_and_publish:
           <<: *filter-tags
           name: Build and test
