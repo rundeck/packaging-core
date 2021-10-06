@@ -131,6 +131,11 @@ commands:
             bash scripts/travis-build.sh publish_war
 
 jobs:
+  test:
+    steps:
+    - run:
+      name: Test
+      comman: echo "hello world"
   build_and_publish:
     # <<: *defaults
     # machine: true
