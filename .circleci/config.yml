@@ -45,9 +45,8 @@ commands:
       - run:
           name: Git modules
           command: |
-            
             echo $PWD
-            sudo sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
+            sudo sed -i 's/git@github.com:/https:\/\/github.com\//' $PWD/.gitmodules
 
   submodule-update:
     description: Update submodule
