@@ -42,10 +42,10 @@ commands:
   git-modules:
     description: Git modules step
     steps:
+      - checkout
       - run:
           name: Git modules
           command: |
-            echo $PWD
             sudo sed -i 's/git@github.com:/https:\/\/github.com\//' $PWD/.gitmodules
 
   submodule-update:
@@ -161,7 +161,7 @@ jobs:
             sudo apt-get -y install dpkg-sig
             sudo apt-get -y install gnupg
       - docker-login
-      #- git-modules
+      - git-modules
       - submodule-update
       - aws-install
       - package-cloud-install
