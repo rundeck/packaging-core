@@ -98,13 +98,9 @@ commands:
       - run:
           name: Build war
           command: |
-            source .circleci/travis-shim.sh
-            echo "UPSTREAM_ARTIFACT_BASE: $UPSTREAM_ARTIFACT_BASE"
-            echo "UPSTREAM_PROJECT: $UPSTREAM_PROJECT"
+            source .circleci/travis-shim.sh 
             export CIRCLE_UPSTREAM_TAG="v3.4.5-alpha1"
             export UPSTREAM_TAG="v3.4.5-alpha1"
-            echo "CIRCLE_UPSTREAM_TAG: $CIRCLE_UPSTREAM_TAG"
-            echo "UPSTREAM_TAG: $UPSTREAM_TAG"
             bash scripts/travis-build.sh build
   sign:
     description: Sign war
