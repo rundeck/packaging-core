@@ -44,7 +44,9 @@ commands:
     steps:
       - run:
           name: Git modules
-          command: sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
+          command: |
+          pwd
+          sed -i 's/git@github.com:/https:\/\/github.com\//' .gitmodules
 
   submodule-update:
     description: Update submodule
