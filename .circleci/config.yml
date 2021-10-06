@@ -132,10 +132,12 @@ commands:
 
 jobs:
   random_test:
+    docker:
+      - image: 481311893001.dkr.ecr.us-west-2.amazonaws.com/rundeck/ci@sha256:664d53fde6060ee28a61e9edfab7a8f5db6fc390076683dfd3bb7eb8877ee0de
     steps:
-    - run:
-        name: Test
-        command: echo "hello world"
+      - run:
+          name: Test
+          command: echo "hello world"
 
   build_and_publish:
     # <<: *defaults
