@@ -102,8 +102,7 @@ commands:
             echo "UPSTREAM_TAG: $UPSTREAM_TAG"
             echo "UPSTREAM_ARTIFACT_BASE: $UPSTREAM_ARTIFACT_BASE"
             echo "UPSTREAM_PROJECT: $UPSTREAM_PROJECT"
-            echo "BUILD_TYPE: BUILD_TYPE"
-
+            echo "CIRCLE_UPSTREAM_TAG: $CIRCLE_UPSTREAM_TAG"
             bash scripts/travis-build.sh build
   sign:
     description: Sign war
