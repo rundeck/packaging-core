@@ -150,14 +150,14 @@ jobs:
         default: true
 
     steps:
-      #- run:
-       #   name: Apt install
-        #  command: |
-         #   sudo apt-get update
-          #  sudo apt-get -y install expect
-           # sudo apt-get -y install rpm
-            #sudo apt-get -y install dpkg-sig
-            #sudo apt-get -y install gnupg
+      - run:
+          name: Apt install
+          command: |
+            sudo apt-get update
+            sudo apt-get -y install expect
+            sudo apt-get -y install rpm
+            sudo apt-get -y install dpkg-sig
+            sudo apt-get -y install gnupg
       - docker-login
       - git-modules
       - submodule-update
