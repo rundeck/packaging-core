@@ -139,27 +139,15 @@ jobs:
           command: echo "hello world"
 
   build_and_publish:
-    # <<: *defaults
+    <<: *defaults
     machine: true
-    
-
-    resource_class: xlarge
-
-    working_directory: ~/repo
+    resource_class: large
 
     parameters:
       submodule:
         description: Should the build use submodules?
         type: boolean
         default: true
-
-    environment:
-      <<: *upstream
-      CIRCLE_PIPELINE_NUM: << pipeline.number >>
-      TERM: dumb
-      GRADLE_OPTS: -Xmx1024m -XX:MaxPermSize=192m -Xss50m
-      _JAVA_OPTIONS: "-Xmx2g -Xms200m -Xss50m"
-      BASH_ENV: ~/.bash_profile
 
     steps:
       #- run:
