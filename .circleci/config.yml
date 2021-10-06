@@ -134,8 +134,9 @@ jobs:
   test:
     steps:
     - run:
-      name: Test
-      comman: echo "hello world"
+        name: Test
+        command: echo "hello world"
+        
   build_and_publish:
     # <<: *defaults
     # machine: true
