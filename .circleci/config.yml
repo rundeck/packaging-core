@@ -99,6 +99,18 @@ commands:
           name: Build war
           command: |
             source .circleci/travis-shim.sh
+            echo "ECR_REPO: ${ECR_REPO}"
+            echo "TRAVIS_BRANCH: ${TRAVIS_BRANCH}"
+            echo "TRAVIS_TAG: ${TRAVIS_TAG}"
+            echo "TRAVIS_BUILD_NUMBER: ${TRAVIS_BUILD_NUMBER}"
+            echo "UPSTREAM_BUILD_NUMBER: ${UPSTREAM_BUILD_NUMBER}"
+            echo "UPSTREAM_BRANCH: ${UPSTREAM_BRANCH}"
+            echo "UPSTREAM_TAG: ${UPSTREAM_TAG}"
+            echo "PRO_S3_ARTIFACT_BASE: ${PRO_S3_ARTIFACT_BASE}"
+            echo "PRO_S3_ARTIFACT_BASE: ${PRO_S3_ARTIFACT_BASE}"
+            echo "S3_ARTIFACT_BASE: ${S3_ARTIFACT_BASE}"
+            echo "RDPRO_S3_ARTIFACT_BASE: ${RDPRO_S3_ARTIFACT_BASE}"
+
             bash scripts/travis-build.sh build
   sign:
     description: Sign war
