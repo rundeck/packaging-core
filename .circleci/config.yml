@@ -187,3 +187,6 @@ workflows:
     jobs:
       - build_and_publish:
           name: Build and publish
+          filters:
+            branches: {only: 'main'}
+            tags: {only: '/^v.*/'}
