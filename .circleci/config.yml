@@ -133,12 +133,6 @@ commands:
             source .circleci/travis-shim.sh
             bash scripts/travis-build.sh publish_war
 jobs:
-  random_test:
-    machine: true
-    steps:
-      - run:
-          name: Test
-          command: echo "hello world"
 
   build_and_publish:
     <<: *defaults
@@ -190,11 +184,6 @@ filters:
 workflows:
   version: 2
   build_and_test:
-    when:
-      and:
-        - equal ['/^v.*/', <<pipeline.parameters.CIRCLE_UPSTREAM_TAG>>]
     jobs:
       - build_and_publish:
           name: Build and publish
-      - random_test:
-          name: Test 
