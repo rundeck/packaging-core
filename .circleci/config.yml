@@ -81,17 +81,6 @@ commands:
       - run:
           name: Define helpers source
           command: source packaging/scripts/travis-helpers.sh
-  export-helpers:
-    description: Export helpers
-    steps:
-      - run:
-          name: Export helpers
-          command: |
-              source packaging/scripts/travis-helpers.sh
-              export -f travis_nanoseconds
-              export -f travis_fold
-              export -f travis_time_start
-              export -f travis_time_finish
   build:
     description: Build war
     steps:
@@ -174,7 +163,6 @@ jobs:
       - package-cloud-install
       - echo-package-cloud
       - define-source
-      #- export-helpers
       - build
       - sign
       - test
@@ -198,11 +186,5 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-      - no-publish:
-          name: Not a release
-    when:
-      condition:
-        equal: ['/^v.*/' ,<<pipeline.parameters.CIRCLE_UPSTREAM_TAG>>]
-      jobs:
-        - build_and_publish:
-            name: Build and publish
+      - build_and_publish:
+          name: Build and publish
