@@ -165,12 +165,8 @@ jobs:
       - build
       - sign
       - test
-      - when:
-          condition:
-            equal: ['/^v.*/' ,<<pipeline.parameters.CIRCLE_UPSTREAM_TAG>>]
-          steps:
-            - publish
-            - publish_war
+      - publish
+      - publish_war
 
 stages:
   test: &stage-test
@@ -188,6 +184,10 @@ filters:
 workflows:
   version: 2
   build_and_test:
-    jobs:
-      - build_and_publish:
-          name: Build and publish
+    when:
+      condition:
+        equal: ['/^v.*/' ,<<parameters.CIRCLE_UPSTREAM_TAG>>]
+        equal: ['/^v.*/' ,<<pipeline.parameters.CIRCLE_UPSTREAM_TAG>>]
+      jobs:
+        - build_and_publish:
+            name: Build and publish
