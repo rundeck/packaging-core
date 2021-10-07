@@ -168,8 +168,9 @@ jobs:
       - when:
           condition:
             equal: ['/^v.*/' ,<<parameters.CIRCLE_UPSTREAM_TAG>>]
-      - publish
-      - publish_war
+          steps:
+            - publish
+            - publish_war
 
 stages:
   test: &stage-test
