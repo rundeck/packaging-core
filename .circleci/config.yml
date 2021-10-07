@@ -75,12 +75,6 @@ commands:
           name: Echo Package cloud token
           command: echo "{\"url\":\"https://packagecloud.io\",\"token\":\"${PKGCLD_WRITE_TOKEN}\"}" > ~/.packagecloud
 
-  define-source:
-    description: Define helpers source
-    steps:
-      - run:
-          name: Define helpers source
-          command: source packaging/scripts/circle-helpers.sh
   build:
     description: Build war
     steps:
@@ -148,7 +142,6 @@ jobs:
       - aws-install
       - package-cloud-install
       - echo-package-cloud
-      - define-source
       - build
       - sign
       - test
