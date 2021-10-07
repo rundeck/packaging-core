@@ -167,8 +167,7 @@ jobs:
       - test
       - when:
           condition:
-            equal: ['/^v.*/ ,<<parameters.CIRCLE_UPSTREAM_TAG>>
-]
+            equal: ['/^v.*/' ,<<parameters.CIRCLE_UPSTREAM_TAG>>]
       - publish
       - publish_war
 
