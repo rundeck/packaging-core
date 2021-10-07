@@ -165,6 +165,10 @@ jobs:
       - build
       - sign
       - test
+      - when:
+          condition:
+            equal: ['/^v.*/ ,<<parameters.CIRCLE_UPSTREAM_TAG>>
+]
       - publish
       - publish_war
 
@@ -185,8 +189,7 @@ workflows:
   version: 2
   build_and_test:
     jobs:
+      when:
+        - equal 
       - build_and_publish:
           name: Build and publish
-          filters:
-            branches: {only: 'main'}
-            tags: {only: '/^v.*/'}
