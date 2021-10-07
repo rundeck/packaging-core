@@ -132,7 +132,20 @@ commands:
           command: |
             source .circleci/travis-shim.sh
             bash scripts/travis-build.sh publish_war
+  not_a_release:
+    description: No release detected
+    steps:
+      - run:
+          name: No release detected
+          command: |
+            echo "release environment not found, build publish not triggered"
 jobs:
+  no-publish:
+    <<: *defaults
+    machine: true
+    resource_class: large
+    steps:
+      - not_a_release
 
   build_and_publish:
     <<: *defaults
@@ -184,6 +197,9 @@ filters:
 workflows:
   version: 2
   build_and_test:
+    jobs:
+      - no-publish:
+          name: Not a release
     when:
       condition:
         equal: ['/^v.*/' ,<<pipeline.parameters.CIRCLE_UPSTREAM_TAG>>]
