@@ -186,7 +186,6 @@ workflows:
   build_and_test:
     when:
       condition:
-        equal: ['/^v.*/' ,<<parameters.CIRCLE_UPSTREAM_TAG>>]
         equal: ['/^v.*/' ,<<pipeline.parameters.CIRCLE_UPSTREAM_TAG>>]
       jobs:
         - build_and_publish:
