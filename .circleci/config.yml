@@ -1,6 +1,4 @@
 version: 2.1
-orbs:
-  trigger: rundeck/trigger-pipeline@0.0.5
 
 parameters:
   CIRCLE_UPSTREAM_PIPELINE_NUMBER: {type: string, default: ""}
