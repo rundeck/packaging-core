@@ -7,4 +7,4 @@ export CI_BUILD_NUMBER=${CIRCLE_PIPELINE_NUM:-}
 export CI_COMMIT=${CIRCLE_SHA1:-}
 export SIGNING_PASSWORD=${RUNDECK_SIGNING_PASSWORD}
 export SIGNING_KEYID=${RUNDECK_SIGNING_KEYID}
-export UPSTREAM_ARTIFACT_BASE:-s3://rundeck-ci-artifacts/oss/circle
+export UPSTREAM_ARTIFACT_BASE=s3://rundeck-ci-artifacts/oss/circle
