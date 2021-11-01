@@ -26,7 +26,7 @@ main() {
 build() {
     local RELEASE_NUM="1"
 
-    bash packaging/scripts/travis-build.sh fetch_artifacts
+    bash packaging/scripts/circle-build.sh fetch_artifacts
     (
         cd packaging
         ./gradlew \
@@ -40,7 +40,7 @@ sign() {
 }
 
 test_packages() {
-    bash packaging/scripts/travis-build.sh test
+    bash packaging/scripts/circle-build.sh test
 }
 
 publish() {
