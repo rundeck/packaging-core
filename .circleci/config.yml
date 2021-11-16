@@ -139,6 +139,10 @@ jobs:
       - echo-package-cloud
       - build
       - sign
+      - store_artifacts:
+          path: /packaging/build/distributions
+      - store_artifacts:
+          path: /packaging/artifacts
       - test
       - when:
           condition:
