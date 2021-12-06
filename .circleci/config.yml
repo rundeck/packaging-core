@@ -87,9 +87,9 @@ commands:
             source .circleci/circle-shim.sh
             bash scripts/circle-build.sh sign
       - store_artifacts:
-          path: /packaging/build/distributions
+          path: ~/repo/packaging/build/distributions
       - store_artifacts:
-          path: /packaging/artifacts
+          path: ~/repo/packaging/artifacts
   test:
     description: Test war
     steps:
