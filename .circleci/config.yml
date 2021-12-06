@@ -86,6 +86,10 @@ commands:
           command: |
             source .circleci/circle-shim.sh
             bash scripts/circle-build.sh sign
+      - store_artifacts:
+          path: ~/repo/packaging/build/distributions
+      - store_artifacts:
+          path: ~/repo/packaging/artifacts
   test:
     description: Test war
     steps:
@@ -139,10 +143,6 @@ jobs:
       - echo-package-cloud
       - build
       - sign
-      - store_artifacts:
-          path: /packaging/build/distributions
-      - store_artifacts:
-          path: /packaging/artifacts
       - test
       - when:
           condition:
