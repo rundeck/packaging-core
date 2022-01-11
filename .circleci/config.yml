@@ -54,7 +54,7 @@ commands:
     steps:
       - run:
           name: Install aws cli
-          command: pip install awscli --upgrade --user
+          command: pip install awscli botocore==1.23.31 --upgrade --user
 
   package-cloud-install:
     description: Install package cloud
