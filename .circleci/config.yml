@@ -84,8 +84,6 @@ commands:
       - run:
           name: Sign war
           command: |
-            GPG_TTY=$(tty)
-            export GPG_TTY
             source .circleci/circle-shim.sh
             bash scripts/circle-build.sh sign
       - store_artifacts:
@@ -119,8 +117,8 @@ commands:
 jobs:
   build_and_publish:
     <<: *defaults
-    machine:
-      image: ubuntu-2004:202201-02
+    docker:
+      - image: rundeck/ci@sha256:ef1db4074daaea2882aaaea390604cb92488289549207211d3ef7cbbaedcdf65
     resource_class: large
 
     parameters:
