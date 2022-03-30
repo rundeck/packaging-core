@@ -117,36 +117,6 @@ commands:
             source .circleci/circle-shim.sh
             bash scripts/circle-build.sh publish_war
 
-  install-node:
-    description: Install Node via NVM
-    parameters:
-      version:
-        type: string
-        default: 'v16.13.0'
-    steps:
-      - run:
-          name: Install Node
-          command: |
-            test -f ~/.circlerc && source ~/.circlerc || true
-            export NODE_VERSION=<<parameters.version>>
-            export BASH_ENV=$HOME/.bash_profile
-            nvm install $NODE_VERSION
-            nvm alias default $NODE_VERSION
-            nvm use default
-            echo "nvm use default &>/dev/null" >> "$BASH_ENV"
-
-  install-java:
-    description: Install Java via SDKman
-    steps:
-      - run:
-          name: Install Java
-          command: |
-            curl -s "https://get.sdkman.io" | bash
-            echo -e '\nsource "$HOME/.sdkman/bin/sdkman-init.sh"' >> $BASH_ENV
-            source "/home/circleci/.sdkman/bin/sdkman-init.sh"
-            bash -l -c 'yes | sdk install groovy'
-            sdk install java 8.0.302-open
-            sdk use java 8.0.302-open
 jobs:
   build_and_publish:
     <<: *defaults
@@ -169,8 +139,6 @@ jobs:
             sudo apt-get -y install rpm
             sudo apt-get -y install dpkg-sig
             sudo apt-get -y install gnupg
-      - install-java
-      - install-node
       - docker-login
       - git-modules
       - submodule-update
