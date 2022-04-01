@@ -1,4 +1,4 @@
 [submodule "packaging"]
 	path = packaging
 	url = git@github.com:rundeck/packaging.git
-	branch = final_h2_revert
+	branch = h2_revert2
