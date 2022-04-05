@@ -64,7 +64,11 @@ commands:
     steps:
       - run:
           name: Install package cloud
-          command: gem install package_cloud
+          command: |
+          rvm install 2.4.10
+          echo . $(rvm 2.4.10 do rvm env --path) >> $BASH_ENV
+          rvm use ruby-2.4.10
+          gem install package_cloud
 
   echo-package-cloud:
     description: Echo Package cloud token
@@ -109,8 +113,6 @@ commands:
       - run:
           name: Publish
           command: |
-            rvm install 2.4.10
-            echo . $(rvm 2.4.10 do rvm env --path) >> $BASH_ENV
             rvm use ruby-2.4.10
             source .circleci/circle-shim.sh
             bash scripts/circle-build.sh publish
@@ -120,8 +122,6 @@ commands:
       - run:
           name: Publish war
           command: |
-            rvm install 2.4.10
-            echo . $(rvm 2.4.10 do rvm env --path) >> $BASH_ENV
             rvm use ruby-2.4.10
             source .circleci/circle-shim.sh
             bash scripts/circle-build.sh publish_war
