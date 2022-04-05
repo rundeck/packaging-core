@@ -156,8 +156,8 @@ jobs:
       - build
       - sign
       - test
-#      - ruby/install:
-#          version: '2.4.10'
+      - ruby/install:
+          version: '2.4.10'
       - package-cloud-install
       - when:
           condition:
