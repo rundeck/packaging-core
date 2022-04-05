@@ -110,7 +110,7 @@ commands:
           name: Publish
           command: |
             rvm install 2.4.10
-            echo . $(rvm 2.3.4 do rvm env --path) >> $BASH_ENV
+            echo . $(rvm 2.4.10 do rvm env --path) >> $BASH_ENV
             rvm use ruby-2.4.10
             source .circleci/circle-shim.sh
             bash scripts/circle-build.sh publish
@@ -121,7 +121,7 @@ commands:
           name: Publish war
           command: |
             rvm install 2.4.10
-            echo . $(rvm 2.3.4 do rvm env --path) >> $BASH_ENV
+            echo . $(rvm 2.4.10 do rvm env --path) >> $BASH_ENV
             rvm use ruby-2.4.10
             source .circleci/circle-shim.sh
             bash scripts/circle-build.sh publish_war
