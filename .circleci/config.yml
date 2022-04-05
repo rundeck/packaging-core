@@ -146,13 +146,13 @@ jobs:
       - git-modules
       - submodule-update
       - aws-install
-      - ruby/install:
-          version: '3.0.2'
-      - package-cloud-install
       - echo-package-cloud
       - build
       - sign
       - test
+      - ruby/install:
+          version: '3.0.2'
+      - package-cloud-install
       - when:
           condition:
             matches: { pattern: "/^v.*/", value: <<pipeline.parameters.CIRCLE_UPSTREAM_TAG>> }
