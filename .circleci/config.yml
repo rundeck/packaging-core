@@ -109,7 +109,7 @@ commands:
       - run:
           name: Publish
           command: |
-            rvm use ruby-3.0.2
+            rvm use ruby-2.4.10
             source .circleci/circle-shim.sh
             bash scripts/circle-build.sh publish
   publish_war:
@@ -118,7 +118,7 @@ commands:
       - run:
           name: Publish war
           command: |
-            rvm use ruby-3.0.2
+            rvm use ruby-2.4.10
             source .circleci/circle-shim.sh
             bash scripts/circle-build.sh publish_war
 
@@ -153,7 +153,7 @@ jobs:
       - sign
       - test
       - ruby/install:
-          version: '3.0.2'
+          version: '2.4.10'
       - package-cloud-install
       - when:
           condition:
