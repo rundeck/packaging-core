@@ -152,6 +152,9 @@ jobs:
       - test
       - ruby/install:
           version: '3.0.2'
+      - run:
+          name: Use ruby 3.0.2
+          command: rvm use ruby-3.0.2
       - package-cloud-install
       - when:
           condition:
