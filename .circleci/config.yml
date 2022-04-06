@@ -5,9 +5,6 @@ parameters:
   CIRCLE_UPSTREAM_BRANCH: {type: string, default: ""}
   CIRCLE_UPSTREAM_TAG: {type: string, default: ""}
 
-orbs:
-  ruby: circleci/ruby@1.6.0
-
 upstream-env: &upstream
   CIRCLE_UPSTREAM_PIPELINE_NUMBER: <<pipeline.parameters.CIRCLE_UPSTREAM_PIPELINE_NUMBER>>
   CIRCLE_UPSTREAM_BRANCH: <<pipeline.parameters.CIRCLE_UPSTREAM_BRANCH>>
@@ -156,8 +153,6 @@ jobs:
       - build
       - sign
       - test
-#      - ruby/install:
-#          version: '2.4.10'
       - package-cloud-install
       - when:
           condition:
